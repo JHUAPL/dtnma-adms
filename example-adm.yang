@@ -1,0 +1,147 @@
+module example-adm {
+  yang-version 1.1;
+  namespace "ari://example-adm/";
+  prefix example-adm;
+
+  import ietf-amm {
+    prefix amm;
+  }
+
+  organization
+    "Example Org.";
+  contact
+    "WG Web: <http://tools.ietf.org/wg/dtn/>
+     WG List: <mailto:dtn@ietf.org>
+
+     Author: Brian Sipos
+             <mailto:brian.sipos+ietf@gmail.com>";
+  description
+    "Example module.";
+
+  revision 2023-10-25 {
+    description
+      "Pre-release";
+    reference
+      "draft-bsipos-dtn-amp-yang";
+  }
+  amm:enum 65536;
+
+  feature example {
+    description
+      "some feature";
+  }
+
+  amm:typedef runstate {
+    amm:type "/ARITYPE/INT" {
+      amm:int-labels {
+        enum zero {
+          value 0;
+          description
+            "zero";
+        }
+        enum one {
+          value 1;
+          description
+            "one";
+        }
+        enum seven {
+          value 7;
+          description
+            "seven";
+        }
+      }
+    }
+  }
+  amm:typedef counter32 {
+    amm:type "/ARITYPE/UINT";
+  }
+  amm:typedef gauge32 {
+    amm:type "/ARITYPE/INT";
+  }
+  amm:typedef counter64 {
+    amm:type "/ARITYPE/UVAST";
+  }
+  amm:typedef gauge64 {
+    amm:type "/ARITYPE/VAST";
+  }
+  amm:const const1 {
+    if-feature "example";
+    amm:type "/ARITYPE/UVAST";
+    amm:enum 1;
+    amm:init-value "34";
+    description
+      "Example value.";
+  }
+  amm:const showall {
+    amm:enum 8;
+    amm:type "//ietf-amm/TYPEDEF/RPTT";
+    amm:init-value "/AC/(./CONST/const1)";
+  }
+  amm:ctrl get {
+    amm:enum 2;
+    amm:parameter object {
+      amm:type "/ARITYPE/OBJECT";
+      amm:default "hello";
+      description
+        "Identity of the object to retrieve.";
+    }
+    amm:result data {
+      amm:type "/ARITYPE/BYTESTR";
+      description
+        "Encoded value of the object.";
+    }
+    description
+      "Get a single MIB value from the agent.";
+  }
+  amm:ctrl set {
+    amm:enum 3;
+    amm:parameter object {
+      amm:type "/ARITYPE/OBJECT";
+      description
+        "Identify the value to retrieve.";
+    }
+    amm:parameter data {
+      amm:type "/ARITYPE/BYTESTR";
+      description
+        "Endcoded value used to write the object";
+    }
+    amm:result errorcode {
+      amm:type "/ARITYPE/BYTE";
+      description
+        "If non-zero, an indicator of an error.";
+    }
+    description
+      "Set a single MIB value in the agent.";
+  }
+  amm:edd some_counter {
+    amm:type "/ARITYPE/UVAST";
+  }
+  amm:oper hash_obj {
+    amm:parameter object {
+      amm:type "/ARITYPE/OBJECT";
+      description
+        "The object to dereference and hash.";
+    }
+    amm:result hashval {
+      amm:type "/ARITYPE/BYTESTR";
+    }
+    description
+      "A nullary operator that hashes an object from the parameters.";
+  }
+  amm:oper hash_lit {
+    amm:operand val {
+      amm:type "//ietf-amm/TYPEDEF/LITERAL";
+      description
+        "The object to dereference and hash.";
+    }
+    amm:result hashval {
+      amm:type "/ARITYPE/BYTESTR";
+    }
+    description
+      "A unary operator that hashes the literal value from the operand.";
+  }
+  amm:var sum {
+    amm:type "/ARITYPE/UVAST";
+    amm:init-value "34";
+  }
+}
