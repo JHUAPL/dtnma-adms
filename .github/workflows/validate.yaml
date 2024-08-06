@@ -1,0 +1,24 @@
+name: Validate ADM modules with ACE
+on:
+  push:
+    paths:
+      - .github/workflows/validate.yaml
+      - validate.sh
+      - "*.yang"
+  pull_request:
+    branches:
+    - main
+
+env:
+  ACE_REPO: "git+https://github.com/JHUAPL-DTNMA/dtnma-ace.git@apl-fy24"
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Prep
+        run: pip3 install ${ACE_REPO}
+      - name: Validate
+        run: ./validate.sh ietf-*.yang iana-*.yang
