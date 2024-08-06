@@ -19,6 +19,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Prep
-        run: pip3 install ${ACE_REPO}
+        run: |
+          pip3 install --upgrade pip
+          pip3 install ${ACE_REPO}
       - name: Validate
         run: ./validate.sh ietf-*.yang iana-*.yang
