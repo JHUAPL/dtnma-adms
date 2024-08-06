@@ -1,8 +1,7 @@
 module ietf-dtnma-agent {
   yang-version 1.1;
-  namespace "ari://ietf-dtnma-agent/";
+  namespace "ari://ietf-dtnma-agent";
   prefix da;
-  amm:enum 1;
 
   import ietf-amm {
     prefix amm;
@@ -18,7 +17,21 @@ module ietf-dtnma-agent {
              <mailto:brian.sipos+ietf@gmail.com>";
   description
     "This module implements the DTN Management Architecture (DTNMA)
-     Agent core functionality.";
+     Agent core functionality.
+
+     Copyright (c) 2024 IETF Trust and the persons identified as
+     authors of the code.  All rights reserved.
+
+     Redistribution and use in source and binary forms, with or
+     without modification, is permitted pursuant to, and subject to
+     the license terms contained in, the Revised BSD License set
+     forth in Section 4.c of the IETF Trust's Legal Provisions
+     Relating to IETF Documents
+     (https://trustee.ietf.org/license-info).
+
+     This version of this YANG module is part of RFC XXXX
+     (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
+     for full legal notices.";
   reference
     "draft-ietf-dtn-adm-yang";
 
@@ -41,76 +54,218 @@ module ietf-dtnma-agent {
        state-based autonomy rules.";
   }
 
-  amm:edd sw_vendor {
-    amm:type "/ARITYPE/TEXTSTR";
+  grouping obj-list-params {
+    description
+      "Common parameters for object listing";
+    amm:parameter include-adm {
+      description
+        "If true, listings will include objects from ADMs";
+      amm:default "false";
+      amm:type "/ARITYPE/BOOL";
+    }
+  }
+
+  grouping any-binary-operands {
+    description
+      "Any-value bianry operands";
+    amm:operand left {
+      description
+        "The left-side operand.";
+      amm:type "//ietf-amm/TYPEDEF/ANY";
+    }
+    amm:operand right {
+      description
+        "The left-side operand.";
+      amm:type "//ietf-amm/TYPEDEF/ANY";
+    }
+  }
+
+  grouping numeric-unary-operands {
+    description
+      "Numeric unary operand";
+    amm:operand val {
+      description
+        "The single value.";
+      amm:type "//ietf-amm/TYPEDEF/NUMERIC";
+    }
+  }
+
+  grouping numeric-binary-operands {
+    description
+      "Numeric bianry operands";
+    amm:operand left {
+      description
+        "The left-side operand.";
+      amm:type "//ietf-amm/TYPEDEF/NUMERIC";
+    }
+    amm:operand right {
+      description
+        "The left-side operand.";
+      amm:type "//ietf-amm/TYPEDEF/NUMERIC";
+    }
+  }
+
+  grouping numeric-unary-result {
+    description
+      "Numeric result";
+    amm:result result {
+      description
+        "The single value.";
+      amm:type "//ietf-amm/TYPEDEF/NUMERIC";
+    }
+  }
+
+  grouping integer-unary-operands {
+    description
+      "Integer unary operand";
+    amm:operand val {
+      description
+        "The single value.";
+      amm:type "//ietf-amm/TYPEDEF/INTEGER";
+    }
+  }
+
+  grouping integer-binary-operands {
+    description
+      "Integer bianry operands";
+    amm:operand left {
+      description
+        "The left-side operand.";
+      amm:type "//ietf-amm/TYPEDEF/INTEGER";
+    }
+    amm:operand right {
+      description
+        "The left-side operand.";
+      amm:type "//ietf-amm/TYPEDEF/INTEGER";
+    }
+  }
+
+  grouping integer-unary-result {
+    description
+      "Integer result";
+    amm:result result {
+      description
+        "The single value.";
+      amm:type "//ietf-amm/TYPEDEF/INTEGER";
+    }
+  }
+
+  grouping bool-unary-operands {
+    description
+      "Boolean unary operand";
+    amm:operand val {
+      description
+        "The single value.";
+      amm:type "/ARITYPE/BOOL";
+    }
+  }
+
+  grouping bool-binary-operands {
+    description
+      "Boolean bianry operands";
+    amm:operand left {
+      description
+        "The left-side operand.";
+      amm:type "/ARITYPE/BOOL";
+    }
+    amm:operand right {
+      description
+        "The left-side operand.";
+      amm:type "/ARITYPE/BOOL";
+    }
+  }
+
+  grouping bool-unary-result {
+    description
+      "Boolean result";
+    amm:result result {
+      description
+        "The single value.";
+      amm:type "/ARITYPE/BOOL";
+    }
+  }
+
+  amm:enum 1;
+  amm:edd sw-vendor {
+    amm:enum 0;
     description
       "The vendor for this Agent implementation.";
-  }
-  amm:edd sw_version {
     amm:type "/ARITYPE/TEXTSTR";
+  }
+  amm:edd sw-version {
+    amm:enum 1;
     description
       "The version for this Agent implementation.";
+    amm:type "/ARITYPE/TEXTSTR";
   }
   amm:edd capability {
+    amm:enum 2;
+    description
+      "A table to indicate the ADM capability of the sending agent.";
     amm:tblt {
-      amm:key "adm_name";
-      amm:column adm_name {
-        amm:type "/ARITYPE/TEXTSTR";
+      amm:key "adm-name";
+      amm:column adm-name {
         description
           "The module name of the ADM";
+        amm:type "/ARITYPE/TEXTSTR";
       }
       amm:column enum {
-        amm:type "/ARITYPE/VAST";
         description
           "The module enumeration of the ADM";
+        amm:type "/ARITYPE/VAST";
       }
       amm:column revision {
-        amm:type "/ARITYPE/TEXTSTR";
         description
           "The specific revision the agent supports.";
+        amm:type "/ARITYPE/TEXTSTR";
       }
       amm:column features {
+        description
+          "The features of the ADM which the agent supports.";
         amm:ulist {
           amm:type "/ARITYPE/TEXTSTR";
         }
-        description
-          "The features of the ADM which the agent supports.";
       }
     }
-    description
-      "A table to indicate the ADM capability of the sending agent.";
   }
   amm:const hello {
     amm:enum 0;
-    amm:type "//ietf-amm/TYPEDEF/RPTT";
-    amm:init-value "/AC/(./EDD/sw_vendor,./EDD/sw_version,./EDD/capability)";
     description
       "A report template to indicate the presence of an agent
        on a network.";
+    amm:init-value "/AC/(./EDD/sw-vendor,./EDD/sw-version,./EDD/capability)";
+    amm:type "//ietf-amm/TYPEDEF/RPTT";
   }
 
   // Messaging counters
-  amm:edd num_msg_rx {
+  amm:edd num-msg-rx {
+    amm:enum 3;
     amm:type "//ietf-amm/TYPEDEF/counter64";
   }
-  amm:edd num_msg_rx_failed {
+  amm:edd num-msg-rx-failed {
+    amm:enum 4;
     amm:type "//ietf-amm/TYPEDEF/counter64";
   }
-  amm:edd num_msg_tx {
+  amm:edd num-msg-tx {
+    amm:enum 5;
     amm:type "//ietf-amm/TYPEDEF/counter64";
   }
 
   // Execution counters and states
-  amm:edd num_exec_started {
+  amm:edd num-exec-started {
+    amm:enum 6;
     amm:type "//ietf-amm/TYPEDEF/counter64";
   }
-  amm:edd num_exec_succeeded {
+  amm:edd num-exec-succeeded {
+    amm:enum 7;
     amm:type "//ietf-amm/TYPEDEF/counter64";
   }
-  amm:edd num_exec_failed {
+  amm:edd num-exec-failed {
+    amm:enum 8;
     amm:type "//ietf-amm/TYPEDEF/counter64";
   }
-  amm:edd exec_running {
+  amm:edd exec-running {
+    amm:enum 9;
     amm:tblt {
       amm:key "pid";
       amm:column pid {
@@ -124,9 +279,13 @@ module ietf-dtnma-agent {
           amm:int-labels {
             enum waiting {
               value 0;
+              description
+                "The execution is waiting on a condition or timer to continue.";
             }
             enum running {
               value 1;
+              description
+                "The execution is currently running.";
             }
           }
         }
@@ -135,166 +294,167 @@ module ietf-dtnma-agent {
   }
 
   // MAC helper controls
-  amm:ctrl if_then_else {
-    amm:parameter condition {
-      amm:type "//ietf-amm/TYPEDEF/eval-tgt";
-      description
-        "The condition to evaluate.";
-    }
-    amm:parameter on_truthy {
-      amm:union {
-        amm:type "//ietf-amm/TYPEDEF/exec-tgt";
-        amm:type "/ARITYPE/NULL";
-      }
-      amm:default "null";
-      description
-        "The object to execute when the condition is truthy.";
-    }
-    amm:parameter on_falsy {
-      amm:union {
-        amm:type "//ietf-amm/TYPEDEF/exec-tgt";
-        amm:type "/ARITYPE/NULL";
-      }
-      amm:default "null";
-      description
-        "An optional execution when the condition is falsey.";
-    }
-    amm:result branch {
-      amm:type "/ARITYPE/BOOL";
-      description
-        "Indication of which branch was executed.";
-    }
+  amm:ctrl if-then-else {
+    amm:enum 0;
     description
       "Evaluate an expression and follow one of two branches of
        further evaluation.";
-  }
-  amm:ctrl catch {
-    amm:parameter try {
-      amm:type "//ietf-amm/TYPEDEF/exec-tgt";
+    amm:parameter condition {
       description
-        "The object to execute.";
+        "The condition to evaluate.";
+      amm:type "//ietf-amm/TYPEDEF/eval-tgt";
     }
-    amm:parameter on_failure {
+    amm:parameter on-truthy {
+      description
+        "The object to execute when the condition is truthy.";
+      amm:default "null";
       amm:union {
         amm:type "//ietf-amm/TYPEDEF/exec-tgt";
         amm:type "/ARITYPE/NULL";
       }
+    }
+    amm:parameter on-falsy {
+      description
+        "An optional execution when the condition is falsey.";
       amm:default "null";
-      description
-        "An optional execution after failure.";
+      amm:union {
+        amm:type "//ietf-amm/TYPEDEF/exec-tgt";
+        amm:type "/ARITYPE/NULL";
+      }
     }
-    amm:result try_success {
+    amm:result branch {
+      description
+        "Indication of which branch was executed.";
       amm:type "/ARITYPE/BOOL";
-      description
-        "True if the try target succeeded without exception.";
     }
+  }
+  amm:ctrl catch {
+    amm:enum 1;
     description
       "Attempt to execute a target, and if there is some failure catch it
        and execute an alternative target.";
-  }
-  amm:ctrl wait_for {
-    amm:parameter duration {
-      amm:type "/ARITYPE/TD";
+    amm:parameter try {
+      description
+        "The object to execute.";
+      amm:type "//ietf-amm/TYPEDEF/exec-tgt";
     }
+    amm:parameter on-failure {
+      description
+        "An optional execution after failure.";
+      amm:default "null";
+      amm:union {
+        amm:type "//ietf-amm/TYPEDEF/exec-tgt";
+        amm:type "/ARITYPE/NULL";
+      }
+    }
+    amm:result try-success {
+      description
+        "True if the try target succeeded without exception.";
+      amm:type "/ARITYPE/BOOL";
+    }
+  }
+  amm:ctrl wait-for {
+    amm:enum 2;
     description
       "This control causes the execution to pause for a given amount of time.
        This is intended to be used within a macro to separate controls
        in time.";
-  }
-  amm:ctrl wait_until {
-    amm:parameter time {
-      amm:type "/ARITYPE/TP";
+    amm:parameter duration {
+      amm:type "/ARITYPE/TD";
     }
+  }
+  amm:ctrl wait-until {
+    amm:enum 3;
     description
       "This control causes the execution to pause until a specific absolute
        time point.
        This is intended to be used within a macro to separate controls
        in time or as a first macro item to delay execution after the time
        of reception.";
-  }
-  amm:ctrl wait_cond {
-    amm:parameter condition {
-      amm:type "//ietf-amm/TYPEDEF/eval-tgt";
+    amm:parameter time {
+      amm:type "/ARITYPE/TP";
     }
+  }
+  amm:ctrl wait-cond {
+    amm:enum 4;
     description
       "This control causes the execution to pause until a condition expression
        evaluates to truthy.
        This is intended to be used within a macro to separate controls
        in time or as a first macro item to delay execution until the
        condition is met.";
+    amm:parameter condition {
+      amm:type "//ietf-amm/TYPEDEF/eval-tgt";
+    }
   }
 
   // Value production and reporting
   amm:ctrl inspect {
-    amm:parameter ref {
-      amm:type "//ietf-amm/TYPEDEF/VALUE-OBJ";
-      description
-        "An object to produce a value from.";
-    }
-    amm:result val {
-      amm:type "//ietf-amm/TYPEDEF/ANY";
-      description
-        "The produced value.";
-    }
+    amm:enum 5;
     description
       "Produce a result value to inspect the agent state.
        This does not perform any EXPR evaluation or RPTT handling.";
-  }
-  amm:ctrl report_on {
-    amm:parameter rptt {
-      amm:type "//ietf-amm/TYPEDEF/rpt-tgt";
+    amm:parameter ref {
+      description
+        "An object to produce a value from.";
+      amm:type "//ietf-amm/TYPEDEF/VALUE-OBJ";
     }
+    amm:result val {
+      description
+        "The produced value.";
+      amm:type "//ietf-amm/TYPEDEF/ANY";
+    }
+  }
+  amm:ctrl report-on {
+    amm:enum 6;
     description
       "Generate a report on an object without needing to define an object.
        The parameter is a single RPTT list that would be produced by an object.
        If used for more than one-shot diagnostics, defining a RPTT
        (e.g. in a VAR) is more efficient because the RPTT item would not
        be present in the report.";
+    amm:parameter rptt {
+      amm:type "//ietf-amm/TYPEDEF/rpt-tgt";
+    }
   }
 
   // Helpers for VAR
-  amm:ctrl var_reset {
-    amm:parameter target {
-      amm:type "/ARITYPE/VAR";
-      description
-        "The VAR object to affect.";
-    }
+  amm:ctrl var-reset {
+    amm:enum 7;
     description
       "Modify a VAR state to its default value.";
-  }
-  amm:ctrl var_store {
     amm:parameter target {
-      amm:type "/ARITYPE/VAR";
       description
         "The VAR object to affect.";
+      amm:type "/ARITYPE/VAR";
     }
-    amm:parameter value {
-      amm:type "//ietf-amm/TYPEDEF/ANY";
-      description
-        "The exact value to store in the VAR.";
-    }
+  }
+  amm:ctrl var-store {
+    amm:enum 8;
     description
       "Modify a VAR state to a specific value.";
-  }
-
-  grouping obj-list-params {
-    amm:parameter include_adm {
-      amm:type "/ARITYPE/BOOL";
-      amm:default "false";
+    amm:parameter target {
       description
-        "If true, listings will include objects from ADMs";
+        "The VAR object to affect.";
+      amm:type "/ARITYPE/VAR";
     }
-    description
-      "Common parameters for object listing";
+    amm:parameter value {
+      description
+        "The exact value to store in the VAR.";
+      amm:type "//ietf-amm/TYPEDEF/ANY";
+    }
   }
-
   amm:typedef hellotyp {
+    amm:enum 0;
     amm:union {
       amm:type "/ARITYPE/BYTE";
       amm:type "/ARITYPE/UINT";
     }
   }
-  amm:edd typedef_list {
+  amm:edd typedef-list {
+    amm:enum 10;
+    description
+      "A table of TYPEDEF within the agent.";
     uses obj-list-params;
     amm:tblt {
       amm:key "obj";
@@ -302,12 +462,13 @@ module ietf-dtnma-agent {
         amm:type "/ARITYPE/TYPEDEF";
       }
     }
-    description
-      "A table of TYPEDEF within the agent.";
   }
 
   // Objects related to VAR handling
-  amm:edd var_list {
+  amm:edd var-list {
+    amm:enum 11;
+    description
+      "A table of VAR within the agent.";
     uses obj-list-params;
     amm:tblt {
       amm:key "obj";
@@ -318,372 +479,276 @@ module ietf-dtnma-agent {
         amm:type "//ietf-amm/TYPEDEF/TYPE-REF";
       }
     }
-    description
-      "A table of VAR within the agent.";
   }
-  amm:ctrl ensure_var {
+  amm:ctrl ensure-var {
+    amm:enum 9;
+    description
+      "Ensure a specific VAR is present.";
     amm:parameter obj {
-      amm:type "/ARITYPE/VAR";
       description
         "A reference to a VAR within an ODM only.";
+      amm:type "/ARITYPE/VAR";
     }
     amm:parameter type {
-      amm:type "//ietf-amm/TYPEDEF/TYPE-REF";
       description
         "The type for the VAR object.";
+      amm:type "//ietf-amm/TYPEDEF/TYPE-REF";
     }
     amm:parameter init {
+      description
+        "An optional initializer expression.";
+      amm:default "null";
       amm:union {
         amm:type "/ARITYPE/NULL";
         amm:type "//ietf-amm/TYPEDEF/EXPR";
       }
-      amm:default "null";
-      description
-        "An optional initializer expression.";
     }
-    description
-      "Ensure a specific VAR is present.";
   }
-  amm:ctrl discard_var {
-    amm:parameter obj {
-      amm:type "/ARITYPE/VAR";
-      description
-        "A reference to a VAR within an ODM only.";
-    }
+  amm:ctrl discard-var {
+    amm:enum 10;
     description
       "Discard a specific VAR if it is present.";
+    amm:parameter obj {
+      description
+        "A reference to a VAR within an ODM only.";
+      amm:type "/ARITYPE/VAR";
+    }
   }
 
   // Objects related to SBR handling
-  amm:edd sbr_list {
+  amm:edd sbr-list {
     if-feature "rules";
+    amm:enum 12;
     amm:tblt {
       amm:key "obj";
       amm:column obj {
         amm:type "/ARITYPE/SBR";
       }
       amm:column action {
-        amm:type "//ietf-amm/TYPEDEF/MAC";
         description
           "The execution when this rule triggers.";
+        amm:type "//ietf-amm/TYPEDEF/MAC";
       }
-      amm:column start_time {
+      amm:column start-time {
         amm:type "//ietf-amm/TYPEDEF/TIME";
       }
       amm:column condition {
         amm:type "//ietf-amm/TYPEDEF/EXPR";
       }
-      amm:column min_interval {
+      amm:column min-interval {
         amm:type "/ARITYPE/TD";
       }
-      amm:column max_count {
+      amm:column max-count {
         amm:type "/ARITYPE/UVAST";
       }
     }
   }
-  amm:edd tbr_list {
+  amm:edd tbr-list {
     if-feature "rules";
+    amm:enum 13;
     amm:tblt {
       amm:key "obj";
       amm:column obj {
         amm:type "/ARITYPE/TBR";
       }
       amm:column action {
-        amm:type "//ietf-amm/TYPEDEF/MAC";
         description
           "The execution when this rule triggers.";
+        amm:type "//ietf-amm/TYPEDEF/MAC";
       }
-      amm:column start_time {
+      amm:column start-time {
         amm:type "//ietf-amm/TYPEDEF/TIME";
       }
       amm:column period {
         amm:type "/ARITYPE/TD";
       }
-      amm:column max_count {
+      amm:column max-count {
         amm:type "/ARITYPE/UVAST";
       }
     }
   }
 
-  grouping any-binary-operands {
-    amm:operand left {
-      amm:type "//ietf-amm/TYPEDEF/ANY";
-      description
-        "The left-side operand.";
-    }
-    amm:operand right {
-      amm:type "//ietf-amm/TYPEDEF/ANY";
-      description
-        "The left-side operand.";
-    }
-    description
-      "Any-value bianry operands";
-  }
-
-  grouping numeric-unary-operands {
-    amm:operand val {
-      amm:type "//ietf-amm/TYPEDEF/NUMERIC";
-      description
-        "The single value.";
-    }
-    description
-      "Numeric unary operand";
-  }
-
-  grouping numeric-binary-operands {
-    amm:operand left {
-      amm:type "//ietf-amm/TYPEDEF/NUMERIC";
-      description
-        "The left-side operand.";
-    }
-    amm:operand right {
-      amm:type "//ietf-amm/TYPEDEF/NUMERIC";
-      description
-        "The left-side operand.";
-    }
-    description
-      "Numeric bianry operands";
-  }
-
-  grouping numeric-unary-result {
-    amm:result val {
-      amm:type "//ietf-amm/TYPEDEF/NUMERIC";
-      description
-        "The single value.";
-    }
-    description
-      "Numeric result";
-  }
-
-  grouping integer-unary-operands {
-    amm:operand val {
-      amm:type "//ietf-amm/TYPEDEF/INTEGER";
-      description
-        "The single value.";
-    }
-    description
-      "Integer unary operand";
-  }
-
-  grouping integer-binary-operands {
-    amm:operand left {
-      amm:type "//ietf-amm/TYPEDEF/INTEGER";
-      description
-        "The left-side operand.";
-    }
-    amm:operand right {
-      amm:type "//ietf-amm/TYPEDEF/INTEGER";
-      description
-        "The left-side operand.";
-    }
-    description
-      "Integer bianry operands";
-  }
-
-  grouping integer-unary-result {
-    amm:result val {
-      amm:type "//ietf-amm/TYPEDEF/INTEGER";
-      description
-        "The single value.";
-    }
-    description
-      "Integer result";
-  }
-
-  grouping bool-unary-operands {
-    amm:operand val {
-      amm:type "/ARITYPE/BOOL";
-      description
-        "The single value.";
-    }
-    description
-      "Boolean unary operand";
-  }
-
-  grouping bool-binary-operands {
-    amm:operand left {
-      amm:type "/ARITYPE/BOOL";
-      description
-        "The left-side operand.";
-    }
-    amm:operand right {
-      amm:type "/ARITYPE/BOOL";
-      description
-        "The left-side operand.";
-    }
-    description
-      "Boolean bianry operands";
-  }
-
-  grouping bool-unary-result {
-    amm:result val {
-      amm:type "/ARITYPE/BOOL";
-      description
-        "The single value.";
-    }
-    description
-      "Boolean result";
-  }
-
   // Numeric operators
   amm:oper negate {
-    uses numeric-unary-operands;
-    uses numeric-unary-result;
+    amm:enum 0;
     description
       "Negate a value.
        This is equivalent to multiplying by -1 but a shorter
        expression.";
+    uses numeric-unary-operands;
+    uses numeric-unary-result;
   }
   amm:oper add {
-    uses numeric-binary-operands;
-    uses numeric-unary-result;
+    amm:enum 1;
     description
       "Add two numeric values.
        The operands are cast to the least compatible numeric type
        before the arithmetic.";
+    uses numeric-binary-operands;
+    uses numeric-unary-result;
   }
   amm:oper sub {
+    amm:enum 2;
     uses numeric-binary-operands;
     uses numeric-unary-result;
   }
   amm:oper multiply {
+    amm:enum 3;
     uses numeric-binary-operands;
     uses numeric-unary-result;
   }
   amm:oper divide {
+    amm:enum 4;
     uses numeric-binary-operands;
     uses numeric-unary-result;
   }
   amm:oper remainder {
+    amm:enum 5;
     uses numeric-binary-operands;
     uses numeric-unary-result;
   }
 
   // Bitwise operators
-  amm:oper bit_not {
+  amm:oper bit-not {
+    amm:enum 6;
     uses integer-unary-operands;
     uses integer-unary-result;
   }
-  amm:oper bit_and {
+  amm:oper bit-and {
+    amm:enum 7;
     uses integer-binary-operands;
     uses integer-unary-result;
   }
-  amm:oper bit_or {
+  amm:oper bit-or {
+    amm:enum 8;
     uses integer-binary-operands;
     uses integer-unary-result;
   }
-  amm:oper bit_xor {
+  amm:oper bit-xor {
+    amm:enum 9;
     uses integer-binary-operands;
     uses integer-unary-result;
   }
 
   // Boolean operators
-  amm:oper bool_not {
+  amm:oper bool-not {
+    amm:enum 10;
     uses bool-binary-operands;
     uses bool-unary-result;
   }
-  amm:oper bool_and {
+  amm:oper bool-and {
+    amm:enum 11;
     uses bool-binary-operands;
     uses bool-unary-result;
   }
-  amm:oper bool_or {
+  amm:oper bool-or {
+    amm:enum 12;
     uses bool-binary-operands;
     uses bool-unary-result;
   }
-  amm:oper bool_xor {
+  amm:oper bool-xor {
+    amm:enum 13;
     uses bool-binary-operands;
     uses bool-unary-result;
   }
 
   // Value comparison
-  amm:oper compare_eq {
+  amm:oper compare-eq {
+    amm:enum 14;
     uses any-binary-operands;
     uses bool-unary-result;
   }
-  amm:oper compare_ne {
+  amm:oper compare-ne {
+    amm:enum 15;
     uses any-binary-operands;
     uses bool-unary-result;
   }
 
   // Numeric comparison
-  amm:oper compare_gt {
-    uses numeric-binary-operands;
-    uses bool-unary-result;
+  amm:oper compare-gt {
+    amm:enum 16;
     description
       "Compare two numbers by value.
        The result is true if the left value is greater than the right.
        The operands are cast to the least compatible numeric type
        before the comparison.";
-  }
-  amm:oper compare_ge {
     uses numeric-binary-operands;
     uses bool-unary-result;
+  }
+  amm:oper compare-ge {
+    amm:enum 17;
     description
       "Compare two numbers by value.
        The result is true if the left value is greater than or equal
        to the right.
        The operands are cast to the least compatible numeric type
        before the comparison.";
-  }
-  amm:oper compare_lt {
     uses numeric-binary-operands;
     uses bool-unary-result;
+  }
+  amm:oper compare-lt {
+    amm:enum 18;
     description
       "Compare two operands by value.
        The result is true if the left value is less than the right.
        The operands are cast to the least compatible numeric type
        before the comparison.";
-  }
-  amm:oper compare_le {
     uses numeric-binary-operands;
     uses bool-unary-result;
+  }
+  amm:oper compare-le {
+    amm:enum 19;
     description
       "Compare two operands by value.
        The result is true if the left value is less than or
        equal to the right.
        The operands are cast to the least compatible numeric type
        before the comparison.";
+    uses numeric-binary-operands;
+    uses bool-unary-result;
   }
 
   // Table filtering
   amm:typedef column-id {
+    amm:enum 1;
+    description
+      "Name or index of an individual column in a table.";
     amm:union {
       amm:type "/ARITYPE/UVAST";
       amm:type "/ARITYPE/TEXTSTR";
     }
-    description
-      "Name or index of an individual column in a table.";
   }
-  amm:oper tbl_filter {
-    amm:parameter row_match {
+  amm:oper tbl-filter {
+    amm:enum 20;
+    description
+      "Filter a table first by rows and then by columns.";
+    amm:parameter row-match {
+      description
+        "A filter to match rows with specific cell contents.
+         Each key is a column to compare and each value is an expression
+         with LABEL values substituted by column names.";
       amm:ulist {
         amm:type "//ietf-amm/TYPEDEF/EXPR";
       }
+    }
+    amm:parameter columns {
       description
         "A filter to match rows with specific cell contents.
          Each key is a column to compare and each value is an expression
          with LABEL values substituted by column names.";
-    }
-    amm:parameter columns {
       amm:ulist {
         amm:type "./TYPEDEF/column-id";
       }
-      description
-        "A filter to match rows with specific cell contents.
-         Each key is a column to compare and each value is an expression
-         with LABEL values substituted by column names.";
     }
     amm:operand in {
-      amm:type "/ARITYPE/TBL";
       description
         "Table to filter.";
+      amm:type "/ARITYPE/TBL";
     }
     amm:result out {
-      amm:type "/ARITYPE/TBL";
       description
         "The filtered table.";
+      amm:type "/ARITYPE/TBL";
     }
-    description
-      "Filter a table first by rows and then by columns.";
   }
 }
