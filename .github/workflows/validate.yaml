@@ -10,7 +10,7 @@ on:
     - main
 
 env:
-  ACE_REPO: "git+https://github.com/JHUAPL-DTNMA/dtnma-ace.git@sipos-add-adm-yang"
+  ACE_REPO: "git+https://github.com/JHUAPL-DTNMA/dtnma-ace.git@apl-fy24"
 
 jobs:
   validate:
