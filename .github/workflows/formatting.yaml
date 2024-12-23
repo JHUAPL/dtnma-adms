@@ -1,4 +1,5 @@
-name: Validate ADM modules with ACE
+name: Source formatting
+
 on:
   push:
     branches:
@@ -12,7 +13,7 @@ env:
   ACE_REPO: "git+https://github.com/JHUAPL-DTNMA/dtnma-ace.git@apl-fy24"
 
 jobs:
-  validate:
+  check-formatting:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
@@ -26,5 +27,5 @@ jobs:
               python3-pip
           pip3 install --upgrade pip
           pip3 install ${ACE_REPO}
-      - name: Validate
-        run: ./validate.sh ietf-*.yang iana-*.yang
+      - name: Check formatting
+        run: ./check_format.sh
