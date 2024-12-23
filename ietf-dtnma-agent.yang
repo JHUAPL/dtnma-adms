@@ -478,7 +478,7 @@ module ietf-dtnma-agent {
         amm:type "/ARITYPE/CONST";
       }
       amm:column type {
-        amm:type "//ietf-amm/TYPEDEF/TYPE-REF";
+        amm:type "//ietf-amm/TYPEDEF/semtype";
       }
     }
   }
@@ -494,7 +494,7 @@ module ietf-dtnma-agent {
     amm:parameter type {
       description
         "The type for the CONST object.";
-      amm:type "//ietf-amm/TYPEDEF/TYPE-REF";
+        amm:type "//ietf-amm/TYPEDEF/semtype";
     }
     amm:parameter init {
       description
@@ -526,7 +526,7 @@ module ietf-dtnma-agent {
         amm:type "/ARITYPE/VAR";
       }
       amm:column type {
-        amm:type "//ietf-amm/TYPEDEF/TYPE-REF";
+        amm:type "//ietf-amm/TYPEDEF/semtype";
       }
     }
   }
@@ -542,7 +542,7 @@ module ietf-dtnma-agent {
     amm:parameter type {
       description
         "The type for the VAR object.";
-      amm:type "//ietf-amm/TYPEDEF/TYPE-REF";
+        amm:type "//ietf-amm/TYPEDEF/semtype";
     }
     amm:parameter init {
       description

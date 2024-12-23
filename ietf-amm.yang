@@ -272,15 +272,6 @@ module ietf-amm {
       "Type for a union of other types.";
   }
 
-  grouping semtype {
-    description
-      "The use of a semantic type (parameterized IDENT reference)
-       for introspection of AMM objects.";
-    amm:type "/ARITYPE/ident" {
-      amm:base "./IDENT/semtype";
-    }
-  }
-
   amm:enum 0;
 
   // Base IDENT objects
@@ -302,15 +293,12 @@ module ietf-amm {
   amm:ident semtype-use {
     amm:enum 2;
     description
-      "A named type use.";
+      "A named type use and possibly augment.";
     amm:base "./IDENT/semtype";
     amm:parameter name {
       description
-        "A named built-in type or TYPEDEF object being used, or another nested semantic type.";
-      amm:union {
-        amm:type "./TYPEDEF/type-ref";
-        uses semtype;
-      }
+        "A built-in ARITYPE or reference to TYPEDEF object being used.";
+      amm:type "./TYPEDEF/type-ref";
     }
   }
   amm:ident semtype-ulist {
@@ -321,7 +309,25 @@ module ietf-amm {
     amm:parameter item-type {
       description
         "The semantic type for all items.";
-      uses semtype;
+        amm:type "./TYPEDEF/semtype";
+    }
+    amm:parameter min-elements {
+      description
+        "The smallest valid item count for the AC.";
+      amm:union {
+        amm:type "/ARITYPE/uvast";
+        amm:type "/ARITYPE/null";
+      }
+      amm:default "null";
+    }
+    amm:parameter max-elements {
+      description
+        "The largest valid item count for the AC.";
+      amm:union {
+        amm:type "/ARITYPE/uvast";
+        amm:type "/ARITYPE/null";
+      }
+      amm:default "null";
     }
   }
   amm:ident semtype-dlist {
@@ -334,7 +340,7 @@ module ietf-amm {
         "The list of semantic type for each item.
          The list itself is encoded as an AC in this parameter.";
       amm:ulist {
-        uses semtype;
+        amm:type "./TYPEDEF/semtype";
       }
     }
   }
@@ -346,12 +352,12 @@ module ietf-amm {
     amm:parameter keys {
       description
         "The semantic type for each key.";
-      uses semtype;
+        amm:type "./TYPEDEF/semtype";
     }
     amm:parameter keys {
       description
         "The semantic type for each value.";
-      uses semtype;
+        amm:type "./TYPEDEF/semtype";
     }
   }
   amm:ident semtype-tblt {
@@ -366,6 +372,24 @@ module ietf-amm {
       amm:type "/ARITYPE/ident" {
         amm:base "./IDENT/semtype-tblt-col";
       }
+    }
+    amm:parameter min-elements {
+      description
+        "The smallest valid row count for the TBL.";
+      amm:union {
+        amm:type "/ARITYPE/uvast";
+        amm:type "/ARITYPE/null";
+      }
+      amm:default "null";
+    }
+    amm:parameter max-elements {
+      description
+        "The largest valid row count for the TBL.";
+      amm:union {
+        amm:type "/ARITYPE/uvast";
+        amm:type "/ARITYPE/null";
+      }
+      amm:default "null";
     }
     amm:parameter key {
       description
@@ -400,7 +424,7 @@ module ietf-amm {
     amm:parameter datatype {
       description
         "The semantic type for values in this column.";
-      uses semtype;
+        amm:type "./TYPEDEF/semtype";
     }
   }
   amm:ident semtype-union {
@@ -413,7 +437,7 @@ module ietf-amm {
         "The semantic type for each choice.
          The list itself is encoded as an AC in this parameter.";
       amm:ulist {
-        uses semtype;
+        amm:type "./TYPEDEF/semtype";
       }
     }
   }
@@ -427,7 +451,25 @@ module ietf-amm {
     amm:parameter item-type {
       description
         "The semantic type for all items in the sequence.";
-      uses semtype;
+        amm:type "./TYPEDEF/semtype";
+    }
+    amm:parameter min-elements {
+      description
+        "The smallest valid item count for the sequence.";
+      amm:union {
+        amm:type "/ARITYPE/uvast";
+        amm:type "/ARITYPE/null";
+      }
+      amm:default "null";
+    }
+    amm:parameter max-elements {
+      description
+        "The largest valid item count for the sequence.";
+      amm:union {
+        amm:type "/ARITYPE/uvast";
+        amm:type "/ARITYPE/null";
+      }
+      amm:default "null";
     }
   }
 
@@ -444,7 +486,8 @@ module ietf-amm {
   amm:typedef semtype {
     amm:enum 25;
     description
-      "A parameterized reference to a semantic type object.";
+      "A parameterized reference to a semantic type object.
+       This is used for introspection of AMM objects.";
     amm:type "/ARITYPE/ident" {
       amm:base "./IDENT/semtype";
     }
