@@ -309,25 +309,25 @@ module ietf-amm {
     amm:parameter item-type {
       description
         "The semantic type for all items.";
-        amm:type "./TYPEDEF/semtype";
+      amm:type "./TYPEDEF/semtype";
     }
     amm:parameter min-elements {
       description
         "The smallest valid item count for the AC.";
+      amm:default "null";
       amm:union {
         amm:type "/ARITYPE/uvast";
         amm:type "/ARITYPE/null";
       }
-      amm:default "null";
     }
     amm:parameter max-elements {
       description
         "The largest valid item count for the AC.";
+      amm:default "null";
       amm:union {
         amm:type "/ARITYPE/uvast";
         amm:type "/ARITYPE/null";
       }
-      amm:default "null";
     }
   }
   amm:ident semtype-dlist {
@@ -352,12 +352,12 @@ module ietf-amm {
     amm:parameter keys {
       description
         "The semantic type for each key.";
-        amm:type "./TYPEDEF/semtype";
+      amm:type "./TYPEDEF/semtype";
     }
     amm:parameter keys {
       description
         "The semantic type for each value.";
-        amm:type "./TYPEDEF/semtype";
+      amm:type "./TYPEDEF/semtype";
     }
   }
   amm:ident semtype-tblt {
@@ -376,20 +376,20 @@ module ietf-amm {
     amm:parameter min-elements {
       description
         "The smallest valid row count for the TBL.";
+      amm:default "null";
       amm:union {
         amm:type "/ARITYPE/uvast";
         amm:type "/ARITYPE/null";
       }
-      amm:default "null";
     }
     amm:parameter max-elements {
       description
         "The largest valid row count for the TBL.";
+      amm:default "null";
       amm:union {
         amm:type "/ARITYPE/uvast";
         amm:type "/ARITYPE/null";
       }
-      amm:default "null";
     }
     amm:parameter key {
       description
@@ -424,7 +424,7 @@ module ietf-amm {
     amm:parameter datatype {
       description
         "The semantic type for values in this column.";
-        amm:type "./TYPEDEF/semtype";
+      amm:type "./TYPEDEF/semtype";
     }
   }
   amm:ident semtype-union {
@@ -451,25 +451,25 @@ module ietf-amm {
     amm:parameter item-type {
       description
         "The semantic type for all items in the sequence.";
-        amm:type "./TYPEDEF/semtype";
+      amm:type "./TYPEDEF/semtype";
     }
     amm:parameter min-elements {
       description
         "The smallest valid item count for the sequence.";
+      amm:default "null";
       amm:union {
         amm:type "/ARITYPE/uvast";
         amm:type "/ARITYPE/null";
       }
-      amm:default "null";
     }
     amm:parameter max-elements {
       description
         "The largest valid item count for the sequence.";
+      amm:default "null";
       amm:union {
         amm:type "/ARITYPE/uvast";
         amm:type "/ARITYPE/null";
       }
-      amm:default "null";
     }
   }
 
