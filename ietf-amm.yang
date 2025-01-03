@@ -300,6 +300,7 @@ module ietf-amm {
         "A built-in ARITYPE or reference to TYPEDEF object being used.";
       amm:type "./TYPEDEF/type-ref";
     }
+    // FIXME include constraints and annotations also?
   }
   amm:ident semtype-ulist {
     amm:enum 3;
@@ -337,7 +338,7 @@ module ietf-amm {
     amm:base "./IDENT/semtype";
     amm:parameter item-types {
       description
-        "The list of semantic type for each item.
+        "The list of semantic type for each item in sequence within the list.
          The list itself is encoded as an AC in this parameter.";
       amm:ulist {
         amm:type "./TYPEDEF/semtype";
@@ -349,12 +350,12 @@ module ietf-amm {
     description
       "A uniformly-typed map within an AM.";
     amm:base "./IDENT/semtype";
-    amm:parameter keys {
+    amm:parameter key-type {
       description
         "The semantic type for each key.";
       amm:type "./TYPEDEF/semtype";
     }
-    amm:parameter keys {
+    amm:parameter value-type {
       description
         "The semantic type for each value.";
       amm:type "./TYPEDEF/semtype";
